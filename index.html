@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Airport info </title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+        
+        <!-- Fonts -->
+        <!-- Lato -->
+        <link href='http://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+
+        <!-- CSS -->
+
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/owl.carousel.css">
+        <link rel="stylesheet" href="css/animate.css">
+        <link rel="stylesheet" href="css/main.css">
+        <!-- Responsive Stylesheet -->
+        <link rel="stylesheet" href="css/responsive.css">
+
+        <!-- JQuery -->
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+        <!-- AJAX function -->
+
+        <script>
+
+            // function for retrive access data and put them in html
+            // console.log is here for testing data
+            function OnReceivedData(data, status, xhr){
+                console.log(data);
+                console.log(status);
+                console.log(xhr);
+
+                $('#name').text(data.name);
+                $('#city').text(data.city);
+                $('#weather').text(data.weather.weather);
+                $('#temp').text(data.weather.temp);
+            };
+
+            // function for resolve error
+            function OnError(xhr, status, error){
+                console.log(xhr);
+                console.log(status);
+                console.log(error);
+
+                var msg;
+
+            // in this part we give var msg (error mesage) value connected with error
+                if ( error = "Internal Server Error"){
+                    msg = xhr.responseJSON.Exception.Message;
+                }else if(status == 'timeout'){
+                    msg = "The server took too long to respond."
+                }else{
+                    msg = "Unable to communicate with the server."
+                };
+
+                alert(msg);
+            }
+
+            // ajax function that access data from json array
+
+            $(document).ready(function(){
+
+                $('#find').click(function(){
+
+                    var request =
+                    {
+
+                        url : 'http://services.faa.gov/airport/status/{code}'
+                                .replace('{code}', $('#term').val()),
+                        type : 'GET',
+                        headers : { Accept : 'application/json'},
+                        success : OnReceivedData,
+                        error : OnError,
+                        timeout : 3000
+
+                    }
+
+                    $.ajax(request);
+
+                });
+
+            });
+
+        </script>
+    </head>
+
+    <body id="body">
+
+    	<div id="preloader">
+    		<div class="book">
+    		  <div class="book__page"></div>
+    		  <div class="book__page"></div>
+    		  <div class="book__page"></div>
+    		</div>
+    	</div>
+
+	    <!-- 
+	    Header start
+	    ==================== -->
+	    <div class="navbar-default navbar-fixed-top" id="navigation">
+	        <div class="container">
+	            <!-- Brand and toggle get grouped for better mobile display -->
+	            <div class="navbar-header">
+	                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+	                    <span class="sr-only">Toggle navigation</span>
+	                    <span class="icon-bar"></span>
+	                    <span class="icon-bar"></span>
+	                    <span class="icon-bar"></span>
+	                </button>
+	                <a class="navbar-brand" href="#">
+	                </a>
+	            </div>
+
+	            <!-- Collect the nav links, forms, and other content for toggling -->
+	            <nav class="collapse navbar-collapse" id="navbar">
+	                <ul class="nav navbar-nav navbar-right" id="top-nav">
+                        <li class="current"><a href="#body">Home</a></li>
+                        <li><a href="#about">About</a></li>
+	                </ul>
+	            </nav><!-- /.navbar-collapse -->
+	        </div><!-- /.container-fluid -->
+	    </div>
+
+	    <section id="hero-area">
+	        <div class="container">
+	            <div class="row">
+	                <div class="col-md-4">
+	                    <div class="content-block">
+	                        <h1 class="wow fadeInDown">Please insert airport key:</h1>
+                            <input type="text" id="term">
+	                        <div class="wow fadeInDown" data-wow-delay="0.3s">
+	                        	<button class="btn btn-default btn-home" role="button" id="find">Search</button>
+	                        </div>
+	                    </div>
+	                </div>
+	                <div class="col-md-8 wow zoomIn">
+	                    <div class="block">
+	                        <div class="counter">
+	                            <h2>Airport current info:</h2>
+	                            <ul id="countdown_dashboard">
+	                                <li>
+	                                    <div class="dash days_dash">
+                                            <span class="dash_title">Airport:</span>
+                                            <h4 id="name">Airport name</h4>
+	                                    </div>
+	                                </li>
+	                                <li>
+	                                    <div class="dash hours_dash">
+                                            <span class="dash_title">City:</span>
+                                            <h4 id="city">City</h4>
+	                                    </div>
+	                                </li>
+	                                <li>
+	                                    <div class="dash minutes_dash">
+                                            <span class="dash_title">Weather:</span>
+                                            <h4 id="weather">Weather</h4>
+	                                    </div>
+	                                </li>
+	                                <li>
+	                                    <div class="dash seconds_dash">
+                                            <span class="dash_title">Temperature:</span>
+                                            <h4 id="temp">Temperature</h4>
+	                                    </div>
+	                                </li>
+	                            </ul>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div><!-- .row close -->
+	        </div><!-- .container close -->
+	    </section><!-- header close -->
+
+
+
+
+
+        <!--
+About start
+==================== -->
+        <section id="about" class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-7 col-sm-12 wow fadeInLeft">
+                        <div class="sub-heading">
+                            <h3>This is an application to access USA Airport data through Federal Aviation Administration.</h3>
+                        </div>
+                        <div class="block">
+                            <p>For a test, the application uses airport key, for example, "JFK", "BUF", "ISP", "LGA", "SWF"... </p>
+                            <p>
+                                <a href="http://www.faa.gov/airports/airport_safety/airportdata_5010/menu/#datadownloads">Full list of airports key:</a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-5 col-sm-12 wow fadeInLeft" data-wow-delay="0.3s">
+                    </div>
+                </div>
+            </div>
+        </section><!-- #about close -->
+        <!--
+        About start
+        ==================== -->
+
+
+
+
+
+
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="block">
+                            <p>Copyright &copy; only me | All right reserved.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+
+        <!-- Js -->
+        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="js/vendor/jquery-1.10.2.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+        <script src="js/jquery.lwtCountdown-1.0.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/owl.carousel.min.js"></script>
+        <script src="js/jquery.validate.min.js"></script>
+        <script src="js/jquery.form.js"></script>
+        <script src="js/jquery.nav.js"></script>
+        <script src="js/jquery.sticky.js"></script>
+        <script src="js/plugins.js"></script>
+        <script src="js/wow.min.js"></script>
+        <script src="js/main.js"></script>
+        
+    </body>
+</html>

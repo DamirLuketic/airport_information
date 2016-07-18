@@ -1,4 +1,4 @@
-Application for show basic data of USA airport, through data of Federal Aviation Administration (FAA).
+Application for showing  basic data of USA airport, through data of Federal Aviation Administration (FAA).
 
 The Application is created with usage of:
 - Bootstrap
@@ -12,3 +12,5 @@ The Application is created with usage of:
 - Error message is taken through "xhr", and will show user what is problem
 
 - For input application receive a key name of USA airport, like "JFK", "BUF", "ISP", "LGA", "SWF"...
+
+![alt tag](http://www.consilium-europa.com/github/airport/airport.png)
